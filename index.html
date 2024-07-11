@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #E8F5E9;
+        }
+        .container {
+            background-color: rgb(251, 251, 251);
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            /* overflow: hidden; */
+            visibility: visible;
+            /* position: absolute; */
+            /* right: 25%;
+            left: 25%; */
+            
+        }
+            
+        .container input[disabled] {
+                visibility: hidden;
+                /* margin-top: 60px; */
+            };
+        
+        input, button {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: firework 1s ease-out infinite;
+        }
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+                width: 5px;
+                height: 5px;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+        }
+
+        nav{
+            position: fixed;
+            top: 10%;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            padding: 10px;
+            text-align: center;
+            z-index: 999;
+            text-align: center;position:absolute;
+            bottom: 0;
+            left: 0%;
+            right: 0%;
+        }
+    </style>
+
+<div>
+    <nav>
+        <ul style="display: flex;justify-content: space-between;align-items: center;width: auto;
+        list-style-type: none;padding: 20px ;background-color: rgb(143, 182, 93);">
+  <b><a href="index.html">Homepage </a></b><br>
+  <b><a href="About.html">About </a></b><br>
+  <b><a href="Services.html">Services </a></b><br>
+  <b><a href="connect.html" target="_blank">Contact </a></b><br>
+      </ul>
+   </nav>
+</div>
+</head>
+<body>
+    <div class="container">
+        <h1>Number Guessing Game</h1>
+        <p>Guess a number between 0 and 100:</p>
+        <input type="number" id="guessInput">
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="result"></p>
+    </div>
+
+
+  
+
+    <script>
+        let mynumber = Math.floor(Math.random() * 101);
+        let attempts = 0;
+
+        function checkGuess() {
+            let guess = document.getElementById('guessInput').value;
+    attempts++;
+
+            if (isNaN(guess)) {
+                document.getElementById('result').textContent = "Please enter a valid number.";
+            } else if (guess < 0 || guess > 100) {
+                document.getElementById('result').textContent = "Please enter a number between 0 and 100.";
+            } else if (guess === mynumber) {
+                document.getElementById('result').textContent = `Woohoo! You guessed the right number in ${attempts} attempts! The number was ${mynumber}.`;
+                document.getElementById('guessInput').disabled = true;
+                createFireworks();
+            } else if (guess < mynumber) {
+                document.getElementById('result').textContent = "You guessed very low.";
+            } else {
+                document.getElementById('result').textContent = "You guessed very high.";
+            }
+
+            document.getElementById('guessInput').value = '';
+        }
+
+        function createFireworks() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.classList.add('firework');
+                    firework.style.left = Math.random() * window.innerWidth + 'px';
+                    firework.style.top = Math.random() * window.innerHeight + 'px';
+                    firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    firework.style.setProperty('--x', (Math.random() - 0.5) * 500 + 'px');
+                    firework.style.setProperty('--y', (Math.random() - 0.5) * 500 + 'px');
+                    document.body.appendChild(firework);
+                    setTimeout(() => firework.remove(), 10000);
+                }, i * 20);
+            }
+        }
+    </script>
+</body>
+<footer>
+    <p>&copy; 2024 Number Ninja.&nbsp By Abhi Rupune.</p>
+</footer>
+</html>
